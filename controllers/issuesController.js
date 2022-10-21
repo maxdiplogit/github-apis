@@ -41,7 +41,7 @@ const getOpenIssues = async (req, res, next) => {
         });
     }
     
-    res.json({ openIssuesCount: `${ response.data.length }`});
+    res.status(200).json({ openIssuesCount: `${ response.data.length }`});
 };
 
 const getAllIssues = async (req, res, next) => {
@@ -73,7 +73,7 @@ const getAllIssues = async (req, res, next) => {
         });
     }
     
-    res.json({ allIssuesCount: `${ response.data.length }`});
+    res.status(200).json({ allIssuesCount: `${ response.data.length }`});
 };
 
 const getAssigneesIssues = async (req, res, next) => {
@@ -101,9 +101,9 @@ const getAssigneesIssues = async (req, res, next) => {
             });
         }
     });
-    // console.log('Assignees: ', assignees);
+    console.log('Assignees: ', assignees);
     
-    res.json(assignees);
+    res.status(200).json(assignees);
 };
 
 

@@ -4,18 +4,34 @@ if (process.env.NODE_ENV !== 'production') {
 
 
 const express = require('express');
-const { Octokit } = require('octokit');
-
-
-const octokit = new Octokit({
-    auth: `${ process.env.AUTH_TOKEN }`
-});
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
 
 
 const issuesRouter = require('./routes/issuesRouter');
 
 
+const swaggerOptions = {
+    swaggerDefinition: {
+        info: {
+            title: 'GitHub APIs Implementation',
+            description: 'GitHub APIs Implementation',
+            contact: {
+                name: 'maxdiplo'
+            },
+            servers: [ 'http://localhost:4500' ]
+        }
+    },
+    apis: ['./routes/*.js']
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+
+
 const app = express();
+
+
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 
 app.get('/', (req, res, next) => {
