@@ -1,9 +1,9 @@
 const { Octokit } = require('octokit');
 
 
-const octokit = new Octokit({
-    auth: `${ process.env.AUTH_TOKEN }`
-});
+// const octokit = new Octokit({
+//     auth: process.env.AUTH_TOKEN
+// });
 
 // Utilities
 const ExpressError = require('../utils/ExpressError');
@@ -24,17 +24,23 @@ const getOpenIssues = async (req, res, next) => {
         }
         const labels = labelsList.toString(',');
         console.log(labels, '\n');
+        const octokit = new Octokit({
+            auth: process.env.AUTH_TOKEN
+        });
         response = await octokit.request(`GET /repos/{owner}/{repo}/issues?labels=${ labels }`, {
             owner: `${ process.env.OWNER }`,
-            repo: 'demo'
+            repo: 'Onboarding-phase'
         });
         response.data.forEach(issue => {
             console.log(issue, '\n');
         });
     } else {
+        const octokit = new Octokit({
+            auth: process.env.AUTH_TOKEN
+        });
         response = await octokit.request(`GET /repos/{owner}/{repo}/issues`, {
             owner: `${ process.env.OWNER }`,
-            repo: 'demo'
+            repo: 'Onboarding-phase'
         });
         response.data.forEach(issue => {
             console.log(issue, '\n');
@@ -59,14 +65,20 @@ const getAllIssues = async (req, res, next) => {
         }
         const labels = labelsList.toString(',');
         console.log(labels, '\n');
+        const octokit = new Octokit({
+            auth: process.env.AUTH_TOKEN
+        });
         response = await octokit.request(`GET /repos/{owner}/{repo}/issues?state=all&labels=${ labels }`, {
             owner: `${ process.env.OWNER }`,
-            repo: 'demo'
+            repo: 'Onboarding-phase'
         });
     } else {
+        const octokit = new Octokit({
+            auth: process.env.AUTH_TOKEN
+        });
         response = await octokit.request(`GET /repos/{owner}/{repo}/issues?state=all`, {
             owner: `${ process.env.OWNER }`,
-            repo: 'demo'
+            repo: 'Onboarding-phase'
         });
         response.data.forEach(issue => {
             console.log(issue, '\n');
@@ -77,9 +89,13 @@ const getAllIssues = async (req, res, next) => {
 };
 
 const getAssigneesIssues = async (req, res, next) => {
+    const octokit = new Octokit({
+        auth: process.env.AUTH_TOKEN
+    });
+    
     const responseAssignees = await octokit.request(`GET /repos/{owner}/{repo}/assignees`, {
         owner: process.env.OWNER,
-        repo: 'demo'
+        repo: 'Onboarding-phase'
     });
     const assignees = {};
     responseAssignees.data.forEach(assignee => {
@@ -90,7 +106,7 @@ const getAssigneesIssues = async (req, res, next) => {
     
     const responseIssues = await octokit.request(`GET /repos/{owner}/{repo}/issues`, {
         owner: `${ process.env.OWNER }`,
-        repo: 'demo'
+        repo: 'Onboarding-phase'
     });
     
     responseIssues.data.forEach(issue => {
