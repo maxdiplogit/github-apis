@@ -48,7 +48,7 @@ app.get('/', (req, res, next) => {
 // Route to start the OAuth authentication process
 app.get('/authorize', async (req, res, next) => {
     // const response = await axios.get(`https://github.com/login/oauth/authorize?client_id=${ process.env.CLIENT_ID }&scope=repo`);
-    // console.log(response);
+    console.log('Authorize Route CLIENT_ID: ', process.env.CLIENT_ID);
     res.render('authorize', {
         client_id: process.env.CLIENT_ID
     });
@@ -57,8 +57,10 @@ app.get('/authorize', async (req, res, next) => {
 // This callback will have a query parameter that will go by the name of 'code'
 app.get('/callback', async (req, res, next) => {
     const { code } = req.query;
-    console.log(code);
+    console.log('Callback Route code: ', code);
 
+    console.log('Callback Route CLIENT_ID: ', process.env.CLIENT_ID);
+    console.log('Callback Route CLIENT_SECRET: ', process.env.CLIENT_SECRET);
     // Now we use the recieved code from the OAuth Server to get an access_token from the OAuth Server.
     const response = await axios.post(`https://github.com/login/oauth/access_token?client_id=${ process.env.CLIENT_ID }&client_secret=${ process.env.CLIENT_SECRET }&code=${ code }`);
     const arr = response.data.split('&');
